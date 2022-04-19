@@ -8,17 +8,16 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITK }}
+          password: ${{ secrets.PAT }}
       - uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ghcr.io/${{github.actor}}/bot:latest
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
+          tags: ghcr.io/${{ github.actor }}/bot:latest
+      - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER }}
           username: student
-          password: ${{ secrets.SSH }}
+          key: ${{ secrets.SSH }}
           script: |
-            echo ${{secrets.GITK}} | docker login --username ${{github.actor}} --password -stdin ghcr.io
-            docker run --rm --detach ghcr.io/${{github.actor}}/bot:latest
+            echo ${{ secrets.PAT }} | docker login --username ${{ github.actor }} --password-stdin ghcr.io
+            docker run --rm --detach ghcr.io/${{ github.actor }}/bot:latest
