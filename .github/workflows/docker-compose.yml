@@ -9,9 +9,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.BOTK }}
-       -
-        name: Build and push
-        uses: docker/build-push-action@v2
+      - uses: docker/build-push-action@v2
         with:
           push: true
           tags: ghcr.io/${{github.actor}}/echobot:latest
